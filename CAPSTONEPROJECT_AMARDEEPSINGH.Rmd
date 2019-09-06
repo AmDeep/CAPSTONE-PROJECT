@@ -1,0 +1,325 @@
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(error = TRUE)
+```
+```{r}
+bkn1.df<- read.csv(paste("C:\\Users\\User\\Downloads\\spectrejamesbond007fonts\\RStudio-0.99.903\\bank\\bank-additional\\bank-additional\\BNKN1.csv", sep=""))
+```
+# Project Title: Capstone Project Determination of the relations between term deposit payments and direct marketing campaigns.
+# NAME: Amardeep Singh
+# EMAIL: amardeeps5201@gmail.com
+# COLLEGE / COMPANY: BITS PILANI, DUBAI CAMPUS
+# Section 1: Introduction
+Marketing selling campaigns are an important part of a business’s strategy to better sell its products and services. Companies use direct marketing when targeting segments of customers by contacting them to meet a specific goal. Aligning customer remote interactions in a contact center eases operational management of campaigns. 
+Such systems allow communication using various channels including telephone (fixed-line or mobile) as one of the most common method. Marketing functioned through a contact center is called telemarketing due to the remoteness characteristic.
+
+ Contacts can be divided into inbound and outbound, depending on who initiates the call(client or contact center), both of which present their own set of challenges and objectives.
+Customer Metrics can be obtained through most technology channels, allowing businesses and managers to draw an image about their clients. Also, it should be stressed that the task of selecting the best set of clients, i.e., that are more likely to subscribe a product, is considered to be an approach that can depend on several factors. Decision support systems (DSSs) use information technology to support managerial decision making. DSS is further divided into various fields such as personal and intelligent DSSs.  
+
+# Section 2: Literature Review
+Personal DSSs are related to small and miniscule systems that support a decision task of one manager, while intelligent DSSs use artificial intelligence techniques to support decisions and develop results. DSS has found its calling mainly in Business Intelligence (BI), which is an expansive term that includes information technologies, such as data warehouses and data mining (DM), to support decision making using business parameters.
+ Data mining can play a key role in personal and intelligent DSSs, allowing the semi-automatic extraction of explanatory and predictive knowledge from raw unstructured data. 
+In particular, classification is the most common method employed and the goal is to build a data driven model that learns an unknown underlying function that encompasses several input variables which characterize an item (in this case  bank client), with one labeled output target (in this case a 0 to represent a � failure and a 1 to represent success). 
+There are several classification models, such as the classical Logistic Regression (LR), decision trees (DTs) and the more recent neural networks (NNs) and support vector machines (SVMs).
+
+ Logistic regression and Decision trees have been dealt by the research department that utilized the bank data in creating an academic paper. Both have the advantage of fitting models that tend to be easily understood by humans, while also providing good predictions in classification tasks.
+
+The data collected from 2008 to 2013, overlapping with the recent financial crisis consists of large sets of 150 features related with bank client, product and social-economic attributes. The research paper that studied the data produced a semi-automatic feature selection, performed
+with the data prior to July 2012 and that allowed to select a reduced set of 22 features.  The literature also discusses differences between four methods, namely- logistic regression, decision trees (DTs), neural network (NN) and support vector machine. This results confirmed that the obtained model was credible and valuable for telemarketing campaign managers.
+ 
+The data is related with direct marketing campaigns of a Portuguese banking institution. The marketing campaigns were based on phone calls. Often, more than one contact to the same client was required, in order to access if the product (bank term deposit) would be ('yes') or not ('no') subscribed. 
+
+#Section 3: Data Description
+The project takes use of four datasets that require binary classification to predict if the client will subscribe a bank term deposit (variable y). There are a total of 41188 entries for bank-additional-full.csv and 20 + output attributes. The input variables include the:-
+  1 - age (numeric)
+   2 - job : type of job (categorical: "admin.","blue-collar","entrepreneur","housemaid","management","retired","self-employed","services","student","technician","unemployed","unknown")
+   3 - marital : marital status (categorical: "divorced","married","single","unknown"; note: "divorced" means divorced or widowed)
+   4 - education (categorical: "basic.4y","basic.6y","basic.9y","high.school","illiterate","professional.course","university.degree","unknown")
+   5 - default: has credit in default? (categorical: "no","yes","unknown")
+   6 - housing: has housing loan? (categorical: "no","yes","unknown")
+   7 - loan: has personal loan? (categorical: "no","yes","unknown")
+   # related with the last contact of the current campaign:
+   8 - contact: contact communication type (categorical: "cellular","telephone") 
+   9 - month: last contact month of year (categorical: "jan", "feb", "mar", ..., "nov", "dec")
+  10 - day_of_week: last contact day of the week (categorical: "mon","tue","wed","thu","fri")
+  11 - duration: last contact duration, in seconds (numeric). Important note:  this attribute highly affects the output target (e.g., if duration=0 then y="no"). Yet, the duration is not known before a call is performed. Also, after the end of the call y is obviously known. Thus, this input should only be included for benchmark purposes and should be discarded if the intention is to have a realistic predictive model.
+   # other attributes:
+  12 - campaign: number of contacts performed during this campaign and for this client (numeric, includes last contact)
+  13 - pdays: number of days that passed by after the client was last contacted from a previous campaign (numeric; 999 means client was not previously contacted)
+  14 - previous: number of contacts performed before this campaign and for this client (numeric)
+  15 - poutcome: outcome of the previous marketing campaign (categorical: "failure","nonexistent","success")
+   # social and economic context attributes
+  16 - emp.var.rate: employment variation rate - quarterly indicator (numeric)
+  17 - cons.price.idx: consumer price index - monthly indicator (numeric)     
+  18 - cons.conf.idx: consumer confidence index - monthly indicator (numeric)     
+  19 - euribor3m: euribor 3 month rate - daily indicator (numeric)
+  20 - nr.employed: number of employees - quarterly indicator (numeric)
+
+  Output variable (desired target):
+  21 - y - has the client subscribed a term deposit? (binary: "yes","no")
+
+Any missing attribute values have been designated with an "unknown" label. Three additional columns have been created to represent the categorical nature of dichotomous variables(those with either a yes or a no value). These missing values can be treated as a possible class label or using deletion or imputation techniques.
+There are four datasets: 
+1) bank-additional-full.csv with all examples (41188) and 20 inputs, ordered by date (from May 2008 to November 2010), very close to the data analyzed in [Moro et al., 2014]
+2) bank-additional.csv with 10% of the examples (4119), randomly selected from 1), and 20 inputs.
+3) bank-full.csv with all examples and 17 inputs, ordered by date (older version of this dataset with less inputs). 
+4) bank.csv with 10% of the examples and 17 inputs, randomly selected from 3 (older version of this dataset with less inputs). 
+
+## Section 4: Model Analysis
+The model discussed here mainly takes use of the logistic regression method. Literature data suggests that the validity of the parameters can be determined by the variance methodd which compares the p value of a saturated model(without the major variables) versus a model with the null model of the variables.
+The success of the model is compared by taking a a difference of the log of both the models times minus two for magnitude correction.
+The given model in this project aims to find which variables have a more impact on the customer agreeing to a term deposit such as consumer confidence, period of communication and so on.
+## Section 5: Discussion
+
+ Neural Networks and SVMs are more flexible (as no pre required decision is required) when compared with classical statistical modeling (such as logistic regression) or even Decision Trees.  presenting learning capabilities that range from linear to complex nonlinear mappings.
+ 
+ Due to such flexibility, neural networks and support vector machines tend to provide an accurate prediction even though the models are complex to interpret. 
+However, these “black box” models can be opened by using a sensitivity analysis, which allows us to measure the importance and effect of particular input in the model output response. When comparing decision trees, neural networks and SVMs, several studies have shown different classification performances depending upon the post analysis processes used such as pruning. 
+
+The following project attempts to develop an understanding of the relationship between the various methods used for determining the successes of a term deposit being made by clients and the relative possibilities of success as facilitated by telemarketing. 
+
+Since the output variable is of a dichotomous type, logisitic regression is best suited for the model which will differ depending upon the method used such as gaussian or binomial. P values for a variety of method types will be discussed as well.
+## Section 6: Conclusion
+The data consistently proves that call duration and the time at which the duration takes place(month) play an important role in determining the success of the call. Longer calls tend to increase the possibility of successes with the highest likelihood being in the months of March, June, September and December.
+Comparitive studies of the p values taking into account the variables at hand clearly state that quarterly indicators such as the employment variation index and the consumer confidence index do not play a role as large as the paramaters discussed before.
+Possibility of housing and loans plays a role in determining the possibility of a term deposit. 
+## Section 7: References
+S. Moro, P. Cortez and P. Rita. A Data-Driven Approach to Predict the Success of Bank Telemarketing. Decision Support Systems, Elsevier, 62:22-31, June 2014
+
+S. Moro, R. Laureano and P. Cortez. Using Data Mining for Bank Direct Marketing: An Application of the CRISP-DM Methodology. In P. Novais et al. (Eds.), Proceedings of the European Simulation and Modelling Conference - ESM'2011, pp. 117-121, Guimaraes, Portugal, October, 2011. EUROSIS. [bank.zip]
+
+## Section 8: Appendices
+### Contingency Tables and Boxplots
+```{r}
+t11 <- with(bkn1.df, table(job))
+t11
+t12 <- with(bkn1.df, table(marital))
+t12
+t13 <- with(bkn1.df, table(education))
+t13
+t14 <- with(bkn1.df, table(contact))
+t14
+t15 <- with(bkn1.df, table(month))
+t15
+t16 <- with(bkn1.df, table(day_of_week))
+t16
+t21 <- xtabs(~ job+marital, data=bkn1.df)
+t21
+t22 <- xtabs(~ job+education, data=bkn1.df)
+t22
+t23 <- xtabs(~ education+marital, data=bkn1.df)
+t23
+t24 <- xtabs(~ contact+month, data=bkn1.df)
+t24
+t25 <- xtabs(~ contact+day_of_week, data=bkn1.df)
+t25
+```
+```{r}
+attach(bkn1.df)
+boxplot(age,data=bkn1.df, main="Age Data")
+boxplot(balance,data=bkn1.df, main="Balance Data")
+boxplot(duration,data=bkn1.df, main="Duration Data")
+boxplot(campaign,data=bkn1.df, main="Campaign Data")
+boxplot(pdays,data=bkn1.df, main="P Days Data")
+```
+## Section 9: R code supporting the study
+```{r}
+bkf.df <- read.csv(paste("C:\\Users\\User\\Downloads\\spectrejamesbond007fonts\\RStudio-0.99.903\\bank\\BANKFULL11.csv", sep=""))
+bk.df<- read.csv(paste("C:\\Users\\User\\Downloads\\spectrejamesbond007fonts\\RStudio-0.99.903\\bank\\BANK1.csv", sep=""))
+bkn.df<- read.csv(paste("C:\\Users\\User\\Downloads\\spectrejamesbond007fonts\\RStudio-0.99.903\\bank\\bank-additional\\bank-additional\\BNKN.csv", sep=""))
+```
+```{r}
+summary(bkf.df)
+describe(bkf.df)
+summary(bk.df)
+describe(bk.df)
+summary(bkn.df)
+describe(bkn.df)
+```
+```{r}
+str(bkf.df)
+str(bk.df)
+str(bkn.df)
+```
+```{r}
+library(corrgram)
+corrgram(bkf.df, upper.panel = panel.pie, lower.panel = panel.shade, main="Corrgram of variables")
+```
+```{r}
+library(corrgram)
+corrgram(bk.df, upper.panel = panel.pie, lower.panel = panel.shade, main="Corrgram of variables")
+```
+```{r}
+library(corrgram)
+corrgram(bkn.df, upper.panel = panel.pie, lower.panel = panel.shade, main="Corrgram of variables")
+```
+
+```{r}
+attach(bkf.df)
+boxplot(age,main="Age Data")
+boxplot(balance, main="Balance Data")
+boxplot(duration, main="Duration Data")
+```
+```{r}
+boxplot(age,data=bk.df, main="Age Data")
+boxplot(balance,data=bk.df, main="Balance Data")
+boxplot(duration,data=bk.df, main="Duration Data")
+boxplot(campaign,data=bk.df, main="Campaign Data")
+boxplot(pdays,data=bk.df, main="P Days Data")
+```
+
+```{r}
+attach(bkn1.df)
+histogram(job, type = "count")
+histogram(marital, type = "count")
+histogram(education, type = "count")
+histogram(housing, type = "count")
+histogram(loan, type = "count")
+histogram(contact, type = "count")
+histogram(poutcome, type = "count")
+```
+```{r}
+cor(bkf.df$age,bkf.df$balance)
+cor(bkf.df$age,bkf.df$duration)
+cor(bkf.df$balance,bkf.df$duration)
+```
+```{r}
+attach(bkf.df)
+plot(age, balance, xlab="Age",ylab="Balance")
+plot(duration, balance, xlab="Duration",ylab="Balance")
+plot(day, balance, xlab="Day",ylab="Balance")
+plot(campaign, pdays, xlab="Campaign",ylab="Pdays")
+plot(campaign, duration, xlab="Campaign",ylab="Duration")
+plot(campaign, poutcome, xlab="Campaign",ylab="Outcome")
+plot(campaign, y, xlab="Campaign",ylab="Result")
+```
+```{r}
+attach(bk.df)
+plot(campaign, pdays, xlab="Campaign",ylab="Pdays")
+plot(pdays, previous, xlab="Pdays",ylab="Previous")
+plot(balance, campaign, xlab="Balance",ylab="Campaign")
+```
+```{r}
+attach(bkn.df)
+plot(campaign, pdays, xlab="Campaign",ylab="Pdays")
+plot(pdays, previous, xlab="Pdays",ylab="Previous")
+plot(balance, campaign, xlab="Balance",ylab="Campaign")
+```
+```{r}
+pairs(~age+balance+duration+campaign+pdays+previous,data=bk.df,
+   main="Simple Scatterplot Matrix 1",col=c("red","blue"))
+pairs(~age+day+balance+duration+campaign+pdays+previous,data=bkf.df,
+   main="Simple Scatterplot Matrix 2",col=c("red","blue","seagreen","cyan"))
+pairs(~campaign+pdays+previous+emp.var.rate+cons.conf.idx+cons.price.idx+euribor3m+nr.employed,data=bkn.df,
+   main="Simple Scatterplot Matrix 3",col=c("red","blue","seagreen","cyan","magenta","yellow","green"))
+```
+
+```{r}
+attach(bkf.df)
+t1 <- table(job)
+hist(t1)
+t2 <- table(marital)
+hist(t2)
+table(education)
+table(housing)
+table(loan)
+table(month)
+table(poutcome)
+t9 <- table(y)
+hist(t9)
+```
+```{r}
+bkn1.df<- read.csv(paste("C:\\Users\\User\\Downloads\\spectrejamesbond007fonts\\RStudio-0.99.903\\bank\\bank-additional\\bank-additional\\BNKN1.csv", sep=""))
+attach(bkn1.df)
+t.test(duration,campaign,var.equal=TRUE)
+t.test(duration,pdays,var.equal=TRUE)
+t.test(previous,campaign,var.equal=TRUE)
+t.test(previous,pdays,var.equal=TRUE)
+t.test(emp.var.rate,cons.conf.idx,var.equal=TRUE)
+t.test(emp.var.rate,cons.price.idx,var.equal=TRUE)
+t.test(cons.conf.idx,cons.price.idx,var.equal=TRUE)
+t.test(nr.employed,euribor3m,var.equal=TRUE)
+t.test(nr.employed,emp.var.rate,var.equal=TRUE)
+t.test(duration,Success,var.equal=TRUE)
+t.test(LSuccess,Success,var.equal=TRUE)
+t.test(HSuccess,Success,var.equal=TRUE)
+t.test(previous,Success,var.equal=TRUE)
+t.test(campaign,Success,var.equal=TRUE)
+t.test(pdays,Success,var.equal=TRUE)
+t.test(emp.var.rate,Success,var.equal=TRUE)
+t.test(cons.price.idx,Success,var.equal=TRUE)
+t.test(cons.conf.idx,Success,var.equal=TRUE)
+t.test(nr.employed,Success,var.equal=TRUE)
+t.test(euribor3m,Success,var.equal=TRUE)
+```
+```{r}
+attach(bkn1.df)
+logit1 <- glm(Success~LSuccess,family='binomial')
+summary(logit1)
+logit2 <- glm(Success~nr.employed,family='binomial')
+summary(logit2)
+logit3 <- glm(Success~campaign,family='binomial')
+summary(logit3)
+logit4 <- glm(Success~duration,family='binomial')
+summary(logit4)
+logit5 <- glm(Success~campaign+duration+pdays+previous+HSuccess+LSuccess,family='binomial')
+summary(logit5)
+logit6 <- glm(Success~cons.conf.idx + cons.price.idx + euribor3m,family='gaussian')
+summary(logit6)
+logit7 <- glm(Success~cons.conf.idx + cons.price.idx + euribor3m+emp.var.rate,family='binomial')
+summary(logit7)
+logit8 <- glm(Success~cons.conf.idx + cons.price.idx + euribor3m+emp.var.rate,family='poisson')
+summary(logit8)
+logit9 <- glm(Success~cons.conf.idx + cons.price.idx + euribor3m+emp.var.rate,family='Gamma')
+summary(logit9)
+logit10 <- glm(Success~cons.conf.idx + cons.price.idx + euribor3m+emp.var.rate,family='inverse.gaussian')
+summary(logit10)
+logit11 <- glm(Success~campaign+duration+pdays+previous+HSuccess+LSuccess,family='poisson')
+summary(logit11)
+logit12 <- glm(Success~campaign+duration+pdays+previous+HSuccess+LSuccess,family='quasi')
+summary(logit12)
+logit13 <- glm(Success~campaign+duration+pdays+previous+HSuccess+LSuccess,family='quasibinomial')
+summary(logit13)
+logit14 <- glm(Success~campaign+duration+pdays+previous+HSuccess+LSuccess,family='quasipoisson')
+summary(logit14)
+```
+```{r}
+ fit1 <- lm(Success ~ duration + campaign + pdays,data=bkn1.df)
+ summary(fit1)
+ plot(fit1)
+  fit1 <- lm(Success ~ duration + campaign + pdays+previous,data=bkn1.df)
+ summary(fit5)
+ plot(fit5)
+  fit2 <- lm(Success ~ cons.conf.idx + cons.price.idx + euribor3m,data=bkn1.df)
+ summary(fit2)
+ plot(fit2)
+  fit3 <- lm(Success~duration,data=bkn1.df)
+ summary(fit3)
+ plot(fit3)
+  fit4 <- lm(Success ~ LSuccess+HSuccess,data=bkn1.df)
+ summary(fit4)
+ plot(fit4)
+ fit6 <- lm(Success ~age+duration,data=bkn1.df)
+ summary(fit6)
+ plot(fit6)
+  fit6 <- lm(cons ~age+duration,data=bkn1.df)
+ summary(fit6)
+ plot(fit6)
+```
+```
+```
+ 
+```{r}
+library(tree)
+library(ISLR)
+attach(bkn1.df)
+b<- na.omit(bkn1.df)
+hist(b$Success)
+hist(b$nr.employed)
+hist(b$euribor3m)
+hist(b$cons.price.idx)
+hist(b$cons.conf.idx)
+```
+
+
+ 
