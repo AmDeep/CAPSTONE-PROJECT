@@ -1,0 +1,80 @@
+---
+title: "Titanic Case Study"
+author: "Amardeep Singh"
+date: "February 3, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(error = TRUE)
+```
+
+```{r}
+titanic.df <- read.csv(paste("Titanic Dataa.csv", sep=""))
+View(titanic.df)
+```
+
+3A Total number of passengers on board the Titanic:
+
+```{r}
+length(titanic.df$Survived)
+```
+
+
+3B Total number of passengers who survived the sinking of the Titanic:
+
+```{r}
+length(titanic.df$Survived[titanic.df$Survived==1])
+```
+
+3C Percentage of passengers who survived the sinking of the Titanic:
+```{r}
+
+length(titanic.df$Survived[titanic.df$Survived==1])/length(titanic.df$Survived)*100
+```
+
+
+
+3D Number of first-class passengers who survived the sinking of the Titanic:
+```{r}
+
+tab1<-xtabs(~Survived+Pclass, data=titanic.df)
+addmargins(tab1)
+tab1[2]
+```
+
+3E Percentage of first-class passengers who survived the sinking of the Titanic:
+```{r}
+prop.table(tab1)[2]*100
+```
+3F Number of females from First-Class who survived the sinking of the Titanic:
+```{r}
+TABT<-xtabs(~Survived+Pclass+Sex, data=titanic.df)
+addmargins(TABT)
+TABT[2]
+```
+3G Percentage of survivors who were female:
+```{r}
+tab3<-xtabs(~Survived+Sex, data=titanic.df)
+addmargins(tab3)
+```
+
+```{r}
+prop.table(tab3)[2]*100
+```
+
+
+3H Percentage of females on board the Titanic who survived
+```{r}
+tab4<-xtabs(~Sex+Survived, data=titanic.df)
+addmargins(tab4)
+
+prop.table(tab4)[3]*100
+```
+
+3I Pearson’s Chi-squared test to test the hypothesis:
+```{r}
+chisq.test(tab3)
+```
+
+
