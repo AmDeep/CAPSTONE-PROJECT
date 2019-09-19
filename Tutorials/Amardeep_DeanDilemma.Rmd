@@ -1,0 +1,81 @@
+---
+title: 'Dean’s Dilemma: Selection of Students for the MBA Program'
+author: "Amardeep Singh"
+date: "February 3, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(error = TRUE)
+```
+TASK 2b - Reading the dataset
+```{r}
+dd.df <- read.csv("C:\\Users\\User\\Downloads\\spectrejamesbond007fonts\\RStudio-0.99.903\\bin\\DD.csv")
+```
+
+```{r}
+View(dd.df)
+```
+TASK 2c - Summarize the dataset
+```{r}
+summary(dd.df)
+```
+
+```{r}
+library(psych)
+```
+TASK 2c - Summarize the dataset
+```{r}
+describe(dd.df)
+```
+TASK 3a
+```{r}
+median(dd.df$Salary)
+```
+TASK 3b
+```{r}
+perc <- with(dd.df,table(Placement_B))
+
+prop.table(perc)*100
+```
+TASK 3c
+```{r}
+placed.df <- dd.df[which(dd.df$Placement_B ==1),]
+```
+TASK 3d
+```{r}
+View(placed.df)
+```
+TASK 3e
+```{r}
+summary(placed.df)
+```
+TASK 3f
+```{r}
+hist(placed.df$Percent_MBA, main = "MBA Performance of Placed Students",xlab = "MBA Percentge",ylab = "Count", xlim= c(45,80), col = "red",breaks = 100)
+```
+TASK 3g
+```{r}
+notplaced.df <- dd.df[which(dd.df$Placement_B ==0),]
+```
+TASK 3h
+```{r}
+hist(placed.df$Percent_MBA, main = "MBA Performance of Placed Students",xlab = "MBA Percentge",ylab = "Count", xlim= c(45,80), col = "red",breaks = 100)
+hist(notplaced.df$Percent_MBA, main = "MBA Performance of notPlaced Students",xlab = "MBA Percentge",ylab = "Count", xlim= c(45,80), col = "red",breaks = 100)
+```
+TASK 3i
+```{r}
+placedmales.df <- placed.df[which(placed.df$Gender.B ==0),]
+placedfemales.df <- placed.df[which(placed.df$Gender.B ==1),]
+boxplot(placed.df$Salary~placed.df$Gender, main= "Comparison of Salaries of Males and Females", xlab="Salary", ylab="Gender", horizontal = TRUE,)
+```
+TASK 3j
+```{r}
+placedET.df <-dd.df[which(dd.df$Placement_B==1 & dd.df$S.TEST==1),]
+```
+TASK 3k
+```{r}
+pairs(formula = ~ placedET.df$Salary + placedET.df$Percent_MBA + placedET.df$Percentile_ET, cex=0.6)
+```
+
+
