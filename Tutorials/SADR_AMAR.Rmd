@@ -1,0 +1,125 @@
+---
+title: "AR_AMAR"
+author: "Amardeep Singh"
+date: "February 16, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(error = TRUE)
+```
+
+```{r}
+ard.df <- read.csv(paste("C:\\SADV2.csv", sep=""))
+View(ard.df)
+```
+```{r}
+describe(ard.df)
+```
+```{r}
+summary(ard.df)
+```
+```{r}
+boxplot(ard.df$SeatsEconomy, xlab= "Seats Economy", main= "Distribution of variable Seats Economy", horizontal = TRUE)
+```
+```{r}
+boxplot(ard.df$SeatsPremium, xlab= "Seats Premium", main= "Distribution of variable Seats Premium", horizontal = TRUE)
+```
+```{r}
+boxplot(ard.df$PitchEconomy, xlab= "Pitch Economy", main= "Distribution of variable Pitch Economy", horizontal = TRUE)
+```
+```{r}
+boxplot(ard.df$PitchPremium, xlab= "PitchPremium", main= "Distribution of variable Pitch Premium", horizontal = TRUE)
+```
+```{r}
+boxplot(ard.df$WidthPremium, xlab= "Width Premium", main= "Distribution of variable Width Premium", horizontal = TRUE)
+```
+```{r}
+boxplot(ard.df$PriceEconomy, xlab= "Price Economy", main= "Distribution of variable Price Economy", horizontal = TRUE)
+```
+```{r}
+boxplot(ard.df$PricePremium, xlab= "Price Premium", main= "Distribution of variable Price Premium", horizontal = TRUE)
+```
+```{r}
+boxplot(ard.df$PriceRelative, xlab= "Price Relative",main= "Distribution of variable Price Relative", horizontal = TRUE)
+```
+```{r}
+boxplot(ard.df$SeatsTotal, xlab= "SeatsTotal",main= "Distribution of variable Seats Total", horizontal = TRUE)
+```
+```{r}
+boxplot(ard.df$PitchDifference, xlab= "PitchDifference",main= "Distribution of variable Pitch Difference", horizontal = TRUE)
+```
+```{r}
+boxplot(ard.df$WidthDifference, xlab= "WidthDifference",main= "Distribution of variable Width Difference", horizontal = TRUE)
+```
+```{r}
+boxplot(ard.df$PercentPremiumSeats, xlab= "PercentPremiumSeats",main= "Distribution of variable Percent Premium Seats", horizontal = TRUE)
+```
+```{r}
+plot(ard.df$SeatsEconomy,ard.df$SeatsPremium, xlab="Economy",ylab="Premium")
+```
+```{r}
+plot(ard.df$PitchEconomy,ard.df$PitchPremium)
+```
+```{r}
+plot(ard.df$SeatsEconomy, ard.df$SeatsPremium , xlab="Width Economy",ylab="Width Premium")
+plot(ard.df$PitchEconomy,ard.df$PitchPremium , xlab="Pitch Economy",ylab="Pitch Premium")
+plot(ard.df$WidthEconomy, ard.df$WidthPremium , xlab="Width Economy",ylab="Width Premium")
+plot(ard.df$PriceEconomy, ard.df$PricePremium , xlab="Width Economy",ylab="Width Premium")
+plot(ard.df$PitchDifference, ard.df$WidthDifference , xlab="Width Economy",ylab="Width Premium")
+```
+```{r}
+library(corrgram)
+corrgram(ard.df, upper.panel = panel.pie, lower.panel = panel.shade, main="Corrgram of variables")
+```
+```{r}
+t.test(ard.df$SeatsEconomy,ard.df$SeatsPremium,var.equal = TRUE,paired = FALSE)
+t.test(ard.df$PriceEconomy,ard.df$PricePremium,var.equal = TRUE,paired = FALSE)
+t.test(ard.df$PitchEconomy,ard.df$PitchPremium,var.equal = TRUE,paired = FALSE)
+t.test(ard.df$WidthEconomy,ard.df$WidthPremium,var.equal = TRUE,paired = FALSE)
+t.test(ard.df$PitchDifference,ard.df$WidthDifference,var.equal = TRUE,paired = FALSE)
+```
+```{r}
+model1 <- lm(PriceRelative~PitchDifference+WidthDifference,data= ard.df)
+summary(model1)
+```
+```{r}
+model2 <-lm(PriceRelative~PitchDifference+WidthDifference+FlightDuration,data=ard.df)
+summary(model2)
+```
+```{r}
+model3 <-lm(PricePremium~SeatsPremium+PitchPremium+WidthPremium+FlightDuration,
+            data=ard.df)
+summary(model3)
+```
+```{r}
+model4 <-lm(PriceEconomy~SeatsEconomy+PitchEconomy+WidthEconomy+FlightDuration,
+            data=ard.df)
+summary(model4)
+```
+
+```{r}
+
+model5 <-lm(PriceEconomy~SeatsEconomy+PitchEconomy+WidthEconomy+FlightDuration+
+              SeatsPremium+PitchPremium+WidthPremium+PriceRelative,data=ard.df)
+summary(model5)
+```
+
+```{r}
+model6=lm((ard.df$PricePremium-ard.df$PriceEconomy) ~ ard.df$PitchDifference+ard.df$WidthDifference+ard.df$FlightDuration)
+summary(model6)
+```
+```{r}
+cor(ard.df$SeatsEconomy,ard.df$SeatsPremium)
+cor(ard.df$PitchEconomy,ard.df$PitchPremium)
+cor(ard.df$WidthEconomy,ard.df$WidthPremium)
+cor(ard.df$PriceEconomy,ard.df$PriceEconomy)
+cor(ard.df$PitchDifference,ard.df$WidthDifference)
+cor(ard.df$FlightDuration,ard.df$PriceRelative)
+cor(ard.df$FlightDuration,ard.df$PricePremium)
+cor(ard.df$FlightDuration,ard.df$PriceEconomy)
+```
+
+Conclusion: We can take the null hypothesis that there is no correlation between Price Difference of Premium Economy and Economy airline seat tickets all underlying variables. The alternative can be chosen to represent some correlation.
+The above models show that the p-values and the coefficients are small enough to reject the null hypothesis.
+FlightDuration and WidthDifference are the statistically significant variables for PriceDifference.

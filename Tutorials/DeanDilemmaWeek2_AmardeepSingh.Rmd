@@ -1,0 +1,46 @@
+---
+title: "DeanDilemmaCaseStudyWeek2"
+author: "Amardeep Singh"
+date: "February 5, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+TASK 3a
+```{r}
+DD.df <- read.csv("C:\\Users\\User\\Downloads\\spectrejamesbond007fonts\\RStudio-0.99.903\\bin\\Data - Deans Dilemma.csv")
+```
+TASK 3b
+```{r}
+pd.df <-DD.df[which(DD.df$Placement=="Placed"),]
+aggregate(pd.df$Salary~pd.df$Gender, FUN=mean)
+```
+Thus, the average salaries of males is higher than the average salaries of females in this dataset.
+TASK 3c
+```{r}
+t.test(pd.df$Salary~pd.df$Gender,data=pd.df)
+```
+Task 3d 1.
+```{r}
+pd.df <-DD.df[which(DD.df$Placement=="Placed"),]
+aggregate(pd.df$Salary~pd.df$Gender, FUN=mean)
+```
+Task 3d 2.
+The average salary of male MBAs who were placed was 284241.9
+Task 3d 3.
+The average salary of female MBAs who were placed was 253068.0
+Task 3d 4.
+Submit R code to run a t-test for the Hypothesis "The average salary of the male MBAs is higher than the average salary of female MBAs."
+```{r}
+t.test(pd.df$Salary~pd.df$Gender,data=pd.df)
+```
+
+Task 3d 5.
+The p-value based on the t-test is 0.00234
+
+Task 3d 6.
+As the p value is less than 0.05, the null hypothesis which states that there exists no major difference between the average salaries male MBA students and female MBA students, thus implying that the average salary of the male students is truly higher than the average of the female students.
+
+

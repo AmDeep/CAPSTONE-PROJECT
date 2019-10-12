@@ -1,0 +1,119 @@
+---
+title: "Untitled"
+author: "Amardeep Singh"
+date: "February 20, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(error = TRUE)
+```
+
+```{r}
+MBA.df <- read.csv(paste("C:\\MBA Starting Salaries Data.csv", sep=""))
+View(MBA.df)
+summary(MBA.df)
+describe(MBA.df)
+```
+```{r}
+boxplot(MBA.df$age,horizontal=TRUE,main="AGE")
+barplot(MBA.df$age,xlab="AGE")
+```
+```{r}
+boxplot(MBA.df$gmat_tot,horizontal=TRUE,main="gmat_tot")
+barplot(MBA.df$gmat_tot,xlab="gmat_tot")
+```
+```{r}
+boxplot(MBA.df$gmat_qpc,horizontal=TRUE,main="gmat_qpc")
+barplot(MBA.df$gmat_qpc,xlab="gmat_qpc")
+```
+```{r}
+boxplot(MBA.df$gmat_vpc,horizontal=TRUE,main="gmat_vpc")
+barplot(MBA.df$gmat_vpc,xlab="gmat_vpc")
+```
+```{r}
+boxplot(MBA.df$gmat_tpc,horizontal=TRUE,main="gmat_tpc")
+barplot(MBA.df$gmat_tpc,xlab="gmat_tpc")
+```
+```{r}
+boxplot(MBA.df$s_avg,horizontal=TRUE,main="s_avg")
+barplot(MBA.df$s_avg,xlab="s_avg")
+```
+```{r}
+boxplot(MBA.df$f_avg,horizontal=TRUE,main="f_avg")
+barplot(MBA.df$f_avg,xlab="f_avg")
+```
+```{r}
+boxplot(MBA.df$work_yrs,horizontal=TRUE,main="work_yrs")
+barplot(MBA.df$work_yrs,xlab="work_yrs")
+```
+```{r}
+boxplot(MBA.df$salary,horizontal=TRUE,main="salary")
+barplot(MBA.df$salary,xlab="salary")
+```
+```{r}
+boxplot(MBA.df$satis,horizontal=TRUE,main="satis")
+barplot(MBA.df$satis,xlab="satis")
+```
+```{r}
+attach(MBA.df)
+plot(x=age,y=gmat_tot)
+plot(x=age,y=gmat_qpc)
+plot(x=age,y=gmat_tpc)
+plot(x=age,y=s_avg)
+plot(x=age,y=f_avg)
+plot(x=age,y=work_yrs)
+plot(x=age,y=salary)
+plot(x=age,y=satis)
+plot(x=sex,y=gmat_tot)
+plot(x=salary,y=satis)
+plot(x=salary,y=work_yrs)
+plot(x=gmat_tot,y=salary)
+plot(x=gmat_qpc,y=salary)
+plot(x=gmat_tpc,y=salary)
+plot(x=s_avg,y=salary)
+plot(x=f_avg,y=salary)
+```
+
+```{r}
+library(corrgram)
+corrgram(MBA.df, order=TRUE, lower.panel=panel.shade,
+  upper.panel=panel.pie, text.panel=panel.txt,
+  main="MBA.df") 
+```
+Finding Placed Students
+```{r}
+PD.df <- MBA.df[ which(MBA.df$salary > 999), c(1,2,12,13)]
+TAB1<-xtabs(~salary+sex,PD.df)
+TAB1
+chisq.test(TAB1)
+t.test(salary ~ sex, data=PD.df)
+```
+Finding Unplaced Students
+```{r}
+NP.df <- MBA.df[ which(MBA.df$salary== 0),c(1,2,11,12,13)]
+TAB11 <- xtabs(~salary+sex,NP.df)
+TAB11
+chisq.test(TAB11)
+t.test(salary ~ sex, data=NP.df)
+```
+
+```{r}
+l1<-lm(salary~age+gmat_tpc+work_yrs+frstlang,MBA.df)
+summary(l1)
+l2<-lm(salary~work_yrs+frstlang+gmat_tpc,MBA.df)
+summary(l2)
+l3<-lm(salary~quarter+work_yrs+age,MBA.df)
+summary(l3)
+l4<-lm(salary~gmat_tpc+sex+gmat_vpc,MBA.df)
+summary(l4)
+f1 <- lm(salary ~ gmat_tot + gmat_vpc + gmat_qpc + gmat_tpc , data=MBA.df)
+summary(f1)
+```
+SUMMARY
+The first language of the student plays a role in the starting salary evident by the corrgram and correlation matrices.
+Comparing the people who got a job and those who didn't, a significant relationship exists between the starting salaries and the first language.
+Men have been given most large starting salaries. 
+The regression models show that salary little to no significance on the work years experience and first language.
+
+

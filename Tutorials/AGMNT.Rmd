@@ -1,0 +1,93 @@
+---
+title: "AGNMT"
+author: "Amardeep Singh"
+date: "July 14, 2018"
+output: html_document
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(error = TRUE)
+```
+```{r}
+install.packages("tm")
+```
+```{r}
+install.packages("SnowballC")
+```
+```{r}
+install.packages("wordcloud")
+install.packages("ggplot2")
+```
+```{r}
+cname <- file.path("C:", "texts")   
+cname   
+dir(cname)   
+```
+```{r}
+library(tm)
+docs <- VCorpus(DirSource(cname))   
+summary(docs) 
+```
+
+```{r}
+inspect(docs[1])
+writeLines(as.character(docs[1]))
+```
+
+```{r}
+docs <- tm_map(docs, removePunctuation)
+docs <- tm_map(docs, removeNumbers)
+docs <- tm_map(docs, tolower)
+docs <- tm_map(docs, removeWords, stopwords("english"))
+docs <- tm_map(docs, stripWhitespace)
+library(SnowballC)
+docs <- tm_map(docs, stemDocument)
+```
+
+```{r}
+docs <- tm_map(docs, PlainTextDocument)
+dtm<- DocumentTermMatrix(docs)
+dtm
+```
+
+```{r}
+tdm <- TermDocumentMatrix(docs)   
+tdm   
+```
+
+```{r}
+freq <- colSums(as.matrix(dtm))   
+length(freq)   
+```
+
+```{r}
+#create sort order (descending)
+ord <- order(freq,decreasing=TRUE)
+freq[head(ord)]
+freq[tail(ord)]
+```
+
+```{r}
+findFreqTerms(dtm,lowfreq=80)
+```
+
+```{r}
+dtm <- TermDocumentMatrix(docs)
+m <- as.matrix(dtm)
+v <- sort(rowSums(m),decreasing=TRUE)
+d <- data.frame(word = names(v),freq=v)
+d
+```
+
+```{r}
+library(wordcloud)
+wordcloud(names(d),freq,min.freq=10)
+```
+```{r}
+set.seed(1234)
+wordcloud(words = d$word, freq = d$freq, min.freq = 1,
+          max.words=200, random.order=FALSE, rot.per=0.35, 
+          colors=brewer.pal(8, "Dark2"))
+```
+```{r}
+head(ord, 50)  
+```
