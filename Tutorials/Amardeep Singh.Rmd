@@ -1,0 +1,133 @@
+---
+title: 'Store24 (A): Managing Employee Retention, by Frances X. Frei and Dennis Campbell
+  Task_Amardeep'
+author: "Amardeep Singh"
+date: "February 12, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(error = TRUE)
+```
+```{r}
+st.df<- read.csv(paste("C:\\Store24.csv" , sep = ""))
+```
+TASK 4c
+```{r}
+summary(st.df)
+```
+TASK 4d 1.
+```{r}
+mean(st.df$Profit)
+sd(st.df$Profit)
+```
+TASK 4d 2.
+```{r}
+mean(st.df$MTenure)
+sd(st.df$MTenure)
+```
+TASK 4d 3.
+```{r}
+mean(st.df$CTenure)
+sd(st.df$CTenure)
+```
+TASK 4e
+```{r}
+attach(mtcars)
+View(mtcars)
+newdata <- mtcars[order(mpg),] # sort by mpg (ascending)
+View(newdata)
+newdata[1:5,] # see the first 5 rows
+newdata <- mtcars[order(-mpg),] # sort by mpg (descending)
+View(newdata)
+detach(mtcars)
+```
+TASK 4f 4.
+```{r}
+mstp<- st.df[order(st.df$Profit), ]
+mstp[1:10, 1:5]
+```
+TASK 4f 5.
+```{r}
+lstp<- st.df[order(-st.df$Profit), ]
+lstp[1:10, 1:5]
+```
+TASK 4g - Scatter Plots
+```{r}
+library(car)
+scatterplot(Profit~MTenure, data=st.df,
+            xlab="MTenure", ylab="Profit", 
+            main="MTenure v/s Profit")
+```
+TASK 4h - Scatter Plots (contd.)
+```{r}
+scatterplot(Profit~CTenure, data=st.df,
+            xlab="CTenure", ylab="Profit", 
+            main="CTenure v/s Profit")
+```
+TASK 4i - Correlation Matrix 
+```{r}
+options(digits=2)
+cor(st.df)
+```
+TASK 4j - Correlations 9.
+```{r}
+cor(st.df$Profit, st.df$MTenure)
+```
+TASK 4j - Correlations 10.
+```{r}
+cor(st.df$Profit, st.df$CTenure)
+```
+TASK 4k
+```{r}
+library(corrgram)
+corrgram(st.df,order=TRUE,main="Corrgram of store24 dataset")
+
+MTenure,CTenure,Sales,Pop,Comp,Visibility,ServQual,CrewSkill have a positive correlation with profit but Comp,Hours24,store and Res have a negative correlation. Crew’s Skill and Manager’s Skill have a positive affect on the profit indicating that as more customers are satisfied by great customer service, the store has more returning customers.
+```
+TASK 4l - Pearson’s Correlation Tests 
+```{r}
+cor.test(st.df$Profit, st.df$MTenure, method = "pearson")
+```
+P-value : 8e-05
+
+TASK 4l - Pearson’s Correlation Tests 
+```{r}
+cor.test(st.df$Profit, st.df$CTenure, method = "pearson")
+```
+P-value: 0.03
+
+TASK 4m - Regression Analysis
+```{r}
+ra<- lm(Profit~MTenure+CTenure+Comp+Pop+PedCount+Res+Hours24+Visibility, data=st.df)
+summary(ra)
+```
+TASK 4n  
+15. Explanatory variable(s) whose beta-coefficients are statistically significant (p < 0.05):-Comp, Pop, Res, MTenure, CTenure,PedCount, Res, Hours24
+TASK 4n  
+16.Explanatory variable(s) whose beta-coefficients are not statistically significant (p > 0.05):- Visibility
+
+TASK 4o  
+17.If the Manager’s tenure i.e. number of months of experience with Store24, increases by one month, the profit changes by $760.99.
+
+18.If the Crew’s tenure i.e. number of months of experience with Store24, increases by one month, the profit changes by $944.98.
+TASK 4p 
+The above case study soughT to understand the relationships between Profit and tenures of Managers and the Crew in a company and exhibited ways of gauging and measuring several important statistics. The financial performance is affected by the management tenure which has a correlation of 0.44. The Crew Tenure also plays an important role.
+   
+    The regression coefficient suggests that the value of p is significiant which says it is a good fit model.R square value is:0.6379 meaning that 63.79% of variations in the dependent variable are defined by the independent variable.
+    Adjusted R square value is 0.594 meaning that 59.4% variation in the dependent variable can be explained by the independent variable also the value decreases as we add no of independent variables to it.Explanatory variable(s) whose beta-coefficients are statistically significant are - MTenure , CTenure, Pop , PedCount , Res , Hours24 while that whose beta-coefficients are not statistically significant is the Visibility variable.
+
+
+Correlations test showed that profit is related to sale by 0.92, profit is related to MTenure by 0.44, Profit is related to CTenure by 0.26, profit is related to pop by 0.43, MTenure is related to sales by 0.45, CTenure is related to sales by 0.25.
+
+
+Multiple R-squared: 0.6379 variability explained by redictors 63.7% Adjusted R-squared: 0.594 accounts for number of predictors.
+Regression shows a strong relationship of MTenure and pedcount with profit and a negative relationship shown between profits and competitors with a reasonably good relationship between profits and hours,CTenure,population and residence.
+Explanatory variable(s) whose beta-coefficients are statistically significant are - MTenure , CTenure, Pop , PedCount , Res , Hours24 while that whose beta-coefficients are not statistically significant is the Visibility variable.
+Increasing the tenure of the manager can thus play a positive role in increasing profits.
+
+
+
+
+
+

@@ -1,0 +1,24 @@
+---
+title: "Titanic_Week2"
+author: "Amardeep Singh"
+date: "February 5, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+TASK 4a
+```{r}
+T.df <- read.csv("C:\\Users\\User\\Downloads\\spectrejamesbond007fonts\\RStudio-0.99.903\\bin\\Titanic Dataa.csv")
+```
+TASK 4b
+```{r}
+aggregate(Age~Survived,data=T.df,mean)
+```
+TASK 4c
+```{r}
+t.test(T.df$Age ~ T.df$Survived)
+```
+
+
